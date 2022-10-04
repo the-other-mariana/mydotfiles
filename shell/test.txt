@@ -1,0 +1,6 @@
+\\ this is a comment
+\* this is another comment
+
+int main(){
+	int a = 1;
+}
