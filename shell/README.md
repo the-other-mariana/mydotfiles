@@ -1,6 +1,6 @@
 # Shell Useful Commands
 
-- print all non-comment and non-emoty lines
+- Print all non-comment and non-empty lines
 
 First, we got a file `test.txt` with the lines:
 
@@ -35,7 +35,6 @@ It will open a window showing the camera view:
 ![img](my_photo-1.jpg)
 
 ![img](my_photo-2.jpg)
-
 
 *Note: the webcam must be plugged when you reboot.*
 
