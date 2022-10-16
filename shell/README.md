@@ -38,3 +38,21 @@ It will open a window showing the camera view:
 
 *Note: the webcam must be plugged when you reboot.*
 
+- Kill a process using PID:
+
+```
+sudo top | grep firefox
+```
+
+Which will produce the output: 
+
+```
+4533 mariana   20   0 4575812 593016 234452 S   1.0   2.4  11:27.50 firefox
+```
+
+Then, to kill the process found:
+
+```
+sudo kill 4533
+```
+
