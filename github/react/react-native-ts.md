@@ -10,10 +10,220 @@
 	const result: any = useSelector(selector: Function, equalityFn?: Function)
 	```
 
+- `useState(value)`:
+
+	- Inside an arrow component, create a state variable with a default or initial value of `value`
+
+	```ts
+	[myStateVar, setMyStateVar] = useState(0); // myStateVar = 0
+	```
+
+## Javascript Arrow Functions
+
+```js
+// Traditional Anonymous Function
+(function (a) {
+  return a + 100;
+});
+
+// Arrow Function Break Down
+
+// 1. Remove the word "function" and place arrow between the argument and opening body bracket
+(a) => {
+  return a + 100;
+};
+
+// 2. Remove the body braces and word "return" — the return is implied.
+(a) => a + 100;
+
+// 3. Remove the argument parentheses
+a => a + 100;
+
+// named functions
+const bob2 = (a) => a + 100;
+bob2(1); // returns 101
+
+(params) => ({ foo: "a" }) // returning the object { foo: "a" }
+
+hello = () => {
+  return "Hello World!";
+}
+```
+
+The { braces } and ( parentheses ) and "return" are required in some cases:
+
+	- For example, if you have multiple arguments or no arguments, you'll need to re-introduce parentheses around the arguments.
+
+	- Likewise, if the body requires additional lines of processing, you'll need to re-introduce braces PLUS the "return" (arrow functions do not magically guess what or when you want to "return")
+
+## Typescript Notes
+
+- Type Assertion 
+
+```ts
+let cid: any = 1
+let customerId = <number>cid // option 1
+let customerId = cid as number // option 2
+```
+
+- Objects
+
+```ts
+type User = {
+	id: number
+	name: string
+}
+const user: User = {
+	id: 1, 
+	name: 'mariana',
+}
+```
+
+- Interfaces
+
+```ts
+interface UserInterface {
+	id: number
+	name: string
+	age?: number // this is an optional attribute
+}
+const user1: UserInterface = {
+	id: 1,
+	name: 'mariana',
+}
+interface MathFunc {
+	(x: number, y: number): number
+}
+const add: MathFunc = (x: number, y: number): number => x + y
+const sub: MathFunc = (x: number, y: number): number => x - y
+```
+
+Let's use an interface inside a Component:
+
+```ts
+export interface Props {
+	title: string
+	color?: string
+}
+const Header = (props: Props) => {
+	return (
+		<header>
+			<h1 style={{color: props.color ? props.color : 'blue'}}>
+				{props.title}
+			</h1>
+		</header>
+	)
+}
+```
+
+- Classes
+
+```ts
+class Person {
+	id: number
+	name: string
+
+	constructor(id: number, name: string){
+		this.id = id
+		this.name = name
+	}
+}
+
+const mariana = new Person(25, 'mariana');
+```
+We can also make further classes like: 
+
+```ts
+interface PersonInterface {
+	id: number
+	name: string
+	register(): string
+}
+class Person implements PersonInterface{
+	id: number
+	name: string
+
+	// all attributes must be initialized, so let's use a constructor
+	constructor(id: number, name: string){
+		this.id = id
+		this.name = name
+	}
+
+	register(){
+		return `${this.name} is registered`
+	}
+}
+
+class Employee extends Person {
+	position: string
+	
+	constructor(id: number, name: string, position: string){
+		super(id, name)
+		this.position = position
+	}
+}
+
+const mariana = new Person(25, 'mariana');
+const marianaHappy = new Employee(25, 'mariana', 'developer');
+console.log(marianaHappy.position);
+```
+
+
+- Generics
+
+Generic Type `T` is just a placeholder for the type you send in the function call:
+
+```ts
+function getArray<T>(items: T[]): T[] {
+	return new Array().concat(items)
+}
+let numArray = getArray<number>([1,2,3])
+let strArray = getArray<string>(['mariana', 'luka', 'toni'])
+
+strArray.push('marco');
+strArray.push(1); // error
+```
+
+- Create react app using typescript
+
+```bash
+npx create-react-app my-app --template typescript
+```
+
+- If you create a state variable inside a function component, create some functions to update it and pass them as props to other components:
+
+```ts
+const myComp = () => {
+	const [item, setItems] = useState([
+		{id: uuid(), text: 'Milk'},
+		{id: uuid(), text: 'Eggs'}
+	]);
+
+	const deleteItem = id => {
+		setItems(prevItems => {
+			return prevItems.filter(item => item.id != id);
+		});
+	};
+
+	const addItem = (item) => {
+		setItems(prevItems => {
+			return [{id:uuid(), text:text}, ...prevItems];
+		});
+	}
+	return (
+		<View>
+			<TouchableOpacity onPress={deleteItem()}>
+			<Text>Delete</Text>
+			</TouchableOpacity>
+		</View>
+	)
+}
+export default myComp();
+```
 
 ## Typescript Utility Types
 
-### <Partial<Type>>
+### `<Partial<Type>>`
 
 Constructs a type with all properties of Type set to optional. Opposite of `<Required<Type>>`.
 
@@ -37,7 +247,7 @@ const todo2 = updateTodo(todo1, {
 });
 ```
 
-### <ReturnType<typeof func>>
+### `<ReturnType<typeof func>>`
 
 This just sets the type to the return type of function `func`.
 
