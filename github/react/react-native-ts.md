@@ -394,10 +394,6 @@ const state = navigationRef.getRootState();
 
 ## Interfaces + Objects
 
-### Objects
-
-### Interface
-
 ### Interface Example
 
 - Inside a ToastMessage.tsx component we receive an object as props with type `Props`, and since we typed `{message, status}: Props`, by using {} we destructure the json object so that instead of having `props: Props` so that we use `props.message`, we now destructured the object there and have `message` directly.
