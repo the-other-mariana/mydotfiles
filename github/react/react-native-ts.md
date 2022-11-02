@@ -6,15 +6,28 @@
 	
 	- Allows you to extract data from the Redux store state, using a selector function. Will also subscribe to the Redux store, and run your selector whenever an action is dispatched.
 
-	```ts
+	```typescript
 	const result: any = useSelector(selector: Function, equalityFn?: Function)
+	```
+	with javascript:
+
+	```js
+	const name = useSelector((state) => state.name);
+	```
+
+	with typescript:
+
+	```typescript
+	// pass 2 generics: RootState and what we are expecting: string
+	type RootState = ReturnType<typeof store.getState>;
+	const name = useSelector<RootState, string>((state) => state.name);
 	```
 
 - `useState(value)`:
 
 	- Inside an arrow component, create a state variable with a default or initial value of `value`
 
-	```ts
+	```typescript
 	[myStateVar, setMyStateVar] = useState(0); // myStateVar = 0
 	```
 
@@ -60,7 +73,7 @@ The { braces } and ( parentheses ) and "return" are required in some cases:
 
 - Type Assertion 
 
-```ts
+```typescript
 let cid: any = 1
 let customerId = <number>cid // option 1
 let customerId = cid as number // option 2
@@ -68,7 +81,7 @@ let customerId = cid as number // option 2
 
 - Objects
 
-```ts
+```typescript
 type User = {
 	id: number
 	name: string
@@ -81,7 +94,7 @@ const user: User = {
 
 - Interfaces
 
-```ts
+```typescript
 interface UserInterface {
 	id: number
 	name: string
@@ -100,7 +113,7 @@ const sub: MathFunc = (x: number, y: number): number => x - y
 
 Let's use an interface inside a Component:
 
-```ts
+```typescript
 export interface Props {
 	title: string
 	color?: string
@@ -118,7 +131,7 @@ const Header = (props: Props) => {
 
 - Classes
 
-```ts
+```typescript
 class Person {
 	id: number
 	name: string
@@ -133,7 +146,7 @@ const mariana = new Person(25, 'mariana');
 ```
 We can also make further classes like: 
 
-```ts
+```typescript
 interface PersonInterface {
 	id: number
 	name: string
@@ -173,7 +186,7 @@ console.log(marianaHappy.position);
 
 Generic Type `T` is just a placeholder for the type you send in the function call:
 
-```ts
+```typescript
 function getArray<T>(items: T[]): T[] {
 	return new Array().concat(items)
 }
@@ -192,7 +205,7 @@ npx create-react-app my-app --template typescript
 
 - If you create a state variable inside a function component, create some functions to update it and pass them as props to other components:
 
-```ts
+```typescript
 const myComp = () => {
 	const [item, setItems] = useState([
 		{id: uuid(), text: 'Milk'},
@@ -227,7 +240,7 @@ export default myComp();
 
 Constructs a type with all properties of Type set to optional. Opposite of `<Required<Type>>`.
 
-```ts
+```typescript
 interface Todo {
   title: string;
   description: string;
@@ -251,7 +264,7 @@ const todo2 = updateTodo(todo1, {
 
 This just sets the type to the return type of function `func`.
 
-```ts
+```typescript
 const func(a: number): number {
 	return abs(a)
 }
@@ -261,7 +274,7 @@ type absValue = <ReturnType<typeof func>>;
 
 would be the same as:
 
-```ts
+```typescript
 type absValue = number; // option 1
 type absValue = <ReturnType<() => string>; // option 2
 ```
@@ -270,7 +283,7 @@ type absValue = <ReturnType<() => string>; // option 2
 
 Stack Navigator provides a way for your app to transition between screens where each new screen is placed on top of a stack.
 
-```ts
+```typescript
 import { createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
@@ -295,7 +308,7 @@ The `Stack.Navigator` accepts the props: id, initialRouteName, screenOptions, de
 
 The NavigationContainer is responsible for managing your app state and linking your top-level navigator to the app environment.
 
-```ts
+```typescript
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -318,7 +331,7 @@ Provides a way for your app to transition between screens where each new screen 
 
 To type check our route name and params, the first thing we need to do is to create an object type with mappings for route name to the params of the route. For example, say we have a route called Profile, Home and Feed in our root navigator which should have a param userId:
 
-```ts
+```typescript
 type RootStackParamList = {
   Home: undefined;
   Profile: { userId: string };
@@ -328,7 +341,7 @@ type RootStackParamList = {
 
 After we have defined the mappings, we need to tell our navigator to use it. To do that, we can pass it as a generic to the createXNavigator functions:
 
-```ts
+```typescript
 import { createStackNavigator } from '@react-navigation/stack';
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -338,7 +351,7 @@ const RootStack = createStackNavigator<RootStackParamList>();
 
 Screen components are used to configure various aspects of screens inside a navigator.A Screen is returned from a createXNavigator function:
 
-```ts
+```typescript
 const Stack = createNativeStackNavigator();
 <Stack.Navigator>
   <Stack.Screen name="Home" component={HomeScreen} />
@@ -347,7 +360,7 @@ const Stack = createNativeStackNavigator();
 ```
 You need to provide at least a name and a component to render for each screen. The name string is used to navigate to that screen, and must coincide with the RootStackParamList attributes' names. The component prop is the React Component to render for the screen. All of the Stack.Screen components will be children of the Stack.Navigation component. By creating a Stack.Screen for Home route, it is the same as:
 
-```ts
+```typescript
 navigation.navigate('Home')}
 ```
 
@@ -355,7 +368,7 @@ navigation.navigate('Home')}
 
 Common pattern in navigation is to use drawer from left (sometimes right) side for navigating between screens. It is the menu that unfolds from the left to the right in an app.
 
-```ts
+```typescript
 export type DrawerParamList = {
     CommunityScreen: undefined;
 }
@@ -375,7 +388,7 @@ In this case, the unfolded sidebar menu would have one option screen that render
 
 The getRootState method returns a navigation state object containing the navigation states for all navigators in the navigation tree.
 
-```
+```typescript
 const state = navigationRef.getRootState();
 ```
 
@@ -389,7 +402,7 @@ const state = navigationRef.getRootState();
 
 - Inside a ToastMessage.tsx component we receive an object as props with type `Props`, and since we typed `{message, status}: Props`, by using {} we destructure the json object so that instead of having `props: Props` so that we use `props.message`, we now destructured the object there and have `message` directly.
 
-```ts
+```typescript
 interface Props {
     message: string;
     status?: StatusType;
@@ -406,7 +419,7 @@ function ToastMessage({ message, status }: Props) {
 
 - App.ts
 
-```ts
+```typescript
 <Provider store={store}>
         <Container />
 </Provider>
@@ -414,7 +427,7 @@ function ToastMessage({ message, status }: Props) {
 
 - Container.tsx
 
-```ts
+```typescript
 <NavigationContainer>
 	<Toast>
                 <Navigator />
@@ -424,7 +437,7 @@ function ToastMessage({ message, status }: Props) {
 
 - Navigator.tsx
 
-```ts
+```typescript
 <Stack.Navigator>
 	{!token ? (
                 <>
@@ -447,7 +460,7 @@ function ToastMessage({ message, status }: Props) {
 
 - MenuMain.tsx
 
-```ts
+```typescript
 <Drawer.Navigator>
 	<Drawer.Screen name="CommunityScreen" component={CommunityScreen} />
 	<Drawer.Screen name="MyIdeasScreen" component={MyIdeasScreen} />
@@ -458,7 +471,7 @@ function ToastMessage({ message, status }: Props) {
 
 - CreateIdeaScreen.tsx
 
-```ts
+```typescript
 <View style={{ height: '40%' }}>
 	<TextInput
                 placeholder="Perpetua tu idea.."
@@ -474,7 +487,7 @@ function ToastMessage({ message, status }: Props) {
 
 It of course handles a form
 
-```ts
+```typescript
 const { form, onChange } = useForm({
         mensaje: '',
     	});
@@ -484,7 +497,7 @@ const { mensaje } = form;
 
 that is importing useForm
 
-```ts
+```typescript
 export const useForm = <T extends Object>(initState: T) => {
     const [state, setState] = useState(initState);
 
@@ -506,7 +519,7 @@ So now by having `{mensaje} = form` we are destructuring the return json object 
 
 - OpenedIdeaScreen.tsx
 
-```ts
+```typescript
 <View>
 	{idea.reacciones.length !== 0 ? (
                 <>
@@ -537,4 +550,284 @@ So now by having `{mensaje} = form` we are destructuring the return json object 
 </View>
 ```
 where InputComment handles a form (has bug).
+
+### Concepts
+
+- Axios: used for handling http requests with typescript.
+
+```typescript
+class SpikyService {
+	private instance: AxiosInstance;
+	handleForgotPassword(email: string) {
+        return this.instance.get<ForgotPasswordResponse>('auth/forgot-password?correo=' + email);
+    }
+}
+```
+
+- AsyncStorage: AsyncStorage is an unencrypted, asynchronous, persistent, key-value storage system that is global to the app. It should be used instead of LocalStorage.
+
+	- To store data:
+
+	```typescript
+	await AsyncStorage.setItem(
+     		'@MySuperStore:key',
+     		'I like to save it.'
+   		 );
+	```
+	- To fetch data:
+
+	```typescript
+	const value = await AsyncStorage.getItem('TASKS');
+	```
+- createSlice: A function that accepts an initial state, an object of reducer functions, and a "slice name", and automatically generates action creators and action types that correspond to the reducers and state.
+
+	- `reducers`: An object containing Redux "case reducer" functions (functions intended to handle a specific action type, equivalent to a single case statement in a switch).
+
+	The keys in the object will be used to generate string action type constants, and these will show up in the Redux DevTools.
+
+	```typescript
+	import { createSlice } from '@reduxjs/toolkit'
+
+	const counterSlice = createSlice({
+	  name: 'counter',
+	  initialState: 0,
+	  reducers: {
+	    increment: (state) => state + 1,
+	    setUser: (state: UserState, action: PayloadAction<UserState>) => {
+            	state.nickname = action.payload.nickname;
+            	state.notificationsNumber = action.payload.notificationsNumber;
+            	state.newChatMessagesNumber = action.payload.newChatMessagesNumber;
+            	state.universityId = action.payload.universityId;
+            	state.id = action.payload.id;
+            }
+	  },
+	})
+	// Will handle the action type `'counter/increment'` and `'counter/setUser'`
+	dispatch(
+                    setUser({
+                        nickname: alias,
+                        notificationsNumber: n_notificaciones,
+                        newChatMessagesNumber: n_chatmensajes,
+                        universityId: id_universidad,
+                        id: uid,
+                    })
+                );
+	```
+- React Navigation: with the `<NavigationContainer/>` wrapping your whole app, you can now navigate within a stack of screens and handle them just as a browser with the browser history.
+
+createNativeStackNavigator is a function that returns an object containing 2 properties: Screen and Navigator. Both of them are React components used for configuring the navigator. The Navigator should contain Screen elements as its children to define the configuration for routes.
+
+NavigationContainer is a component which manages our navigation tree and contains the navigation state. This component must wrap all navigators structure. Usually, we'd render this component at the root of our app, which is usually the component exported from App.js.
+
+```typescript
+const Stack = createNativeStackNavigator();
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Details" component={DetailsScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+```
+
+Now our stack has two routes, a Home route and a Details route. A route can be specified by using the Screen component. The initial route for the stack is the Home route. Try changing it to Details and reload the app. Now you would see first Details screen. How do we move from Home to Details?
+
+```typescript
+function HomeScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Home Screen</Text>
+      <Button
+        title="Go to Details"
+        onPress={() => navigation.navigate('Details')}
+      />
+    </View>
+  );
+}
+```
+would be one option. If we call navigation.navigate with a route name that we haven't defined in a navigator, it'll print an error: we can only navigate to routes that have been defined on our navigator.
+[source](https://reactnavigation.org/docs/navigating)
+
+- Drawer-based navigation
+
+This is used to create a navigation drawer menu: those menus that slide open from left to right. First, you need to have a `<NavigationContainer/>` component to contain a drawer menu, and just like with the Stack, there is an object Drawer that has two fields: Navigator and Screen. In Screens you must determine all the possible screens that your drawer may navigate towards. In this case the default or first screen that contains the drawer is Home.
+
+```typescript
+function HomeScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Button
+        onPress={() => navigation.navigate('Notifications')}
+        title="Go to notifications"
+      />
+    </View>
+  );
+}
+
+function NotificationsScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Button onPress={() => navigation.goBack()} title="Go back home" />
+    </View>
+  );
+}
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Notifications" component={NotificationsScreen} />
+      </Drawer.Navigator>
+    </NavigationContainer>
+  );
+}
+```
+In the case of Spiky, we first have a Stack with the Home screen (if there is no token) or the Community screen (if there is token):
+
+```typescript
+<Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+                cardStyle: {
+                    backgroundColor: 'white',
+                },
+            }}
+        >
+            {!token ? (
+                <>
+                    <Stack.Screen name="HomeScreen" component={HomeScreen} />
+                    <Stack.Screen name="LoginScreen" component={LoginScreen} />
+                    <Stack.Screen name="CheckEmailScreen" component={CheckEmailScreen} />
+                    <Stack.Screen name="ForgotPwdScreen" component={ForgotPwdScreen} />
+                    <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+                    <Stack.Screen name="ManifestPart1Screen" component={ManifestPart1Screen} />
+                </>
+            ) : (
+                <>
+                    <Stack.Screen name="MenuMain" component={MenuMain} />
+                    <Stack.Screen name="CreateIdeaScreen" component={CreateIdeaScreen} />
+                    <Stack.Screen name="OpenedIdeaScreen" component={OpenedIdeaScreen} />
+                    <Stack.Screen name="ReportIdeaScreen" component={ReportIdeaScreen} />
+                    <Stack.Screen name="ReplyIdeaScreen" component={ReplyIdeaScreen} />
+                    <Stack.Screen name="ChatScreen" component={ChatScreen} />
+                    <Stack.Screen
+                        name="TermAndConditionsScreen"
+                        component={TermAndConditionsScreen}
+                    />
+                </>
+            )}
+</Stack.Navigator>
+```
+
+Then, on  `MenuMain.tsx` we got the Drawer creation component,
+
+```typescript
+export const MenuMain = () => {
+    return (
+        <Drawer.Navigator
+            screenOptions={{
+                drawerType: 'front', // Menú modo horizontal
+                headerShown: true,
+                header: () => {
+                    return <Header />;
+                },
+                drawerStyle: {
+                    backgroundColor: '#F8F8F8',
+                    width: '60%',
+                },
+                /* overlayColor: '#6363635c', */
+            }}
+            useLegacyImplementation={true}
+            drawerContent={props => <MenuInterno {...props} />}
+        >
+            <Drawer.Screen name="CommunityScreen" component={CommunityScreen} />
+            <Drawer.Screen name="MyIdeasScreen" component={MyIdeasScreen} />
+            <Drawer.Screen name="TrackingScreen" component={TrackingScreen} />
+            <Drawer.Screen name="SearchScreen" component={SearchScreen} />
+            <Drawer.Screen name="ConnectionsScreen" component={ConnectionsScreen} />
+            <Drawer.Screen
+                name="ProfileScreen"
+                component={ProfileScreen}
+                initialParams={{ alias: 'alias' }}
+            />
+            <Drawer.Screen name="ConfigurationScreen" component={ConfigurationScreen} />
+            <Drawer.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} />
+            <Drawer.Screen name="HashTagScreen" component={HashTagScreen} />
+        </Drawer.Navigator>
+    );
+};
+```
+
+whose first screen that has the Drawer ins Community Screen. On that file we also got:
+
+```typescript
+const MenuInterno = ({ navigation }: DrawerContentComponentProps) => {
+return (
+        <DrawerContentScrollView
+            contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}
+            style={{
+                flexDirection: 'row',
+            }}
+        >
+		<TouchableOpacity
+			onPress={() => navigation.navigate('TermAndConditionsScreen')}
+		>
+		...
+	</DrawerContentScrollView>
+}
+```
+
+And this is how the navigation flows accross screens.
+
+On the other hand, how do we use Redux? Inside MenuMain Drawer's props, there is `header: () => {return <Header />}` and if we go to Header, we got:
+
+```typescript
+export const Header = () => {
+    const nickname = useAppSelector((state: RootState) => state.user.nickname);
+	...
+}
+```
+
+which gets the nickname from the store, since in Login we stated 
+
+```typescript
+async someFunc = () => {
+	dispatch(
+                    setUser({
+                        nickname: alias,
+                        notificationsNumber: n_notificaciones,
+                        newChatMessagesNumber: n_chatmensajes,
+                        universityId: id_universidad,
+                        id: uid,
+                    })
+                );
+	}
+```
+
+which went through the reducer named `user` created with `createSlice()`:
+
+```typescript
+export const userSlice = createSlice({
+    name: 'user',
+    initialState,
+    reducers: {
+        setUser: (state: UserState, action: PayloadAction<UserState>) => {
+            state.nickname = action.payload.nickname;
+            state.notificationsNumber = action.payload.notificationsNumber;
+            state.newChatMessagesNumber = action.payload.newChatMessagesNumber;
+            state.universityId = action.payload.universityId;
+            state.id = action.payload.id;
+        },
+	...
+    },
+});
+export const {
+    setUser,
+    ...
+} = userSlice.actions;
+export const selectUser = (state: RootState) => state.user;
+```
 
