@@ -1,6 +1,0 @@
-LOGFILE=/home/ikhsan/.procmail.log
-MAILDIR=/home/ikhsan/
-VERBOSE=on
-
-:0
-Maildir/
